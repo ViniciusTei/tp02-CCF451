@@ -37,6 +37,7 @@ A simulação de gerenciamento de processo gerencia a execução de processos si
 
 Um exemplo de um programa para um processo simulado é mostrado a seguir:
 
+```
 N 2
 D 0 
 D 1
@@ -57,6 +58,7 @@ R file_d
 F 1
 R file_e
 T
+```
 
 Você pode armazenar o programa de um processo simulado também em um vetor, com cada elemento do vetor contendo uma instrução.
 
