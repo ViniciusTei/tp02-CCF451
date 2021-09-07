@@ -9,10 +9,16 @@ BIN = ./bin
 #compilador
 CC = gcc
 
-OBJS =	main.o header.o
+OBJS =	main.o header.o tabelaDeProcessos.o fila.o
 
 all: $(OBJS)
 	$(CC) $(OBJ)/*.o -o $(BIN)/$(TARGET)
+
+fila.o: $(SRC)/fila.c
+	$(CC) -c $(SRC)/fila.c -o $(OBJ)/fila.o
+
+tabelaDeProcessos.o: $(SRC)/tabelaDeProcessos.c
+	$(CC) -c $(SRC)/tabelaDeProcessos.c -o $(OBJ)/tabelaDeProcessos.o
 
 header.o: $(SRC)/header.c
 	$(CC) -c $(SRC)/header.c -o $(OBJ)/header.o
