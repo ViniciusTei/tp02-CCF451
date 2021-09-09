@@ -53,7 +53,7 @@ void iniciaProcessoControle () {
 
         printf("String enviada: %s\n", stringEntrada);
 
-        sleep(1);
+        //sleep(1);
         //escreve no pipe
         write(fd[1], stringEntrada, sizeof(stringEntrada) + 1);
         close(fd[1]);
@@ -62,14 +62,18 @@ void iniciaProcessoControle () {
         return 1;
     } 
     else { //processo filho       
+        GerenciadorProcessos gerenciador;
 
         close(fd[1]);
-
-        sleep(5);
 
         read(fd[0], stringRecebida, sizeof(stringRecebida));
         close(fd[0]);
         printf("String recebida: %s | PID: %i\n", stringRecebida, getpid());
+
+        //inicia processo gerenciador de processos
+        iniciaProcessoControle(&gerenciador);
+
+        
         
         return 0;
     }

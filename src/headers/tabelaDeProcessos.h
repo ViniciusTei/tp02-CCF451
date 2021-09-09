@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "processoSimulados.h"
-#include "fila.h"
+
 
 #define MAXTAM 1000
 
@@ -10,16 +10,6 @@ typedef enum Estados {
     Pronto, 
     Execucao
 } Estados;
-
-typedef struct CPU{
-    ProcessoSimulado *vetorDePrograma;
-    int contadorPrograma;
-    int vetorMemoria[1024];
-    int unidadeDeTempo;
-} CPU;
-
-TipoFila EstadoPronto, EstadoBloqueado;
-int EstadoExec;
 
 typedef struct Processo {
     pid_t processoId;

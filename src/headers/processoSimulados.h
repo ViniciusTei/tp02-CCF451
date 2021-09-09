@@ -14,3 +14,5 @@ typedef struct ProcessoSimulado{
   int QtdInstrucoes;
   Instrucao Programa[20];
 } ProcessoSimulado;
+
+void inicializaProcessoSimulaod(ProcessoSimulado *processo);// -> le o arquivo e salvar na estrutra

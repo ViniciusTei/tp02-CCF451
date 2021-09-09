@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include<ctype.h>
+#include "gerenciadorProcessos.h"
 
 typedef enum Comandos {
     U, L, I, M
