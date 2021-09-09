@@ -1,4 +1,4 @@
-#include "Headers/tabelaDeProcessos.h"
+#include "headers/tabelaDeProcessos.h"
 
 void inicializaListaVazia(TabelaDeProcessos *lista) {
     lista->Primeiro = 0;
