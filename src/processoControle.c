@@ -12,10 +12,10 @@ void iniciaProcessoControle () {
         exit(1);
     }
 
-    if(pipe(fd_filho) < 0) {
-        perror("pipe error");
-        exit(1);
-    }
+    /*     if(pipe(fd_filho) < 0) {
+            perror("pipe error");
+            exit(1);
+        } */
 
     if((pid = fork())<0){
         perror("fork error");
@@ -29,6 +29,7 @@ void iniciaProcessoControle () {
         //pede do usuario qual o tipo de entrada arquivo ou terminal
         int entradaUsuario;
         do {
+            sleep(1);
             printf("Deseja ler a entrada de um arquivo ou terminal?\n");
             printf("1. Terminal\n");
             printf("2. Arquivo\n");
@@ -39,41 +40,77 @@ void iniciaProcessoControle () {
                 //get Entrada
                 if(entradaUsuario == 1){
                     lerTerminal(stringEntrada);
+                    break;
                 }else{
                     lerArquivo(stringEntrada);
+                    break;
                 }
                 
-                break;
+                
             } else {
                 printf("Entrada invalida!\n\n");
             }
-        } while(1);
-
-        
+        } while(entradaUsuario != 1 || entradaUsuario != 2);
 
         printf("String enviada: %s\n", stringEntrada);
 
-        //sleep(1);
         //escreve no pipe
         write(fd[1], stringEntrada, sizeof(stringEntrada) + 1);
-        close(fd[1]);
+        //close(fd[1]);
         exit(0);
 
         return 1;
     } 
     else { //processo filho       
         GerenciadorProcessos gerenciador;
-
-        close(fd[1]);
-
-        read(fd[0], stringRecebida, sizeof(stringRecebida));
-        close(fd[0]);
-        printf("String recebida: %s | PID: %i\n", stringRecebida, getpid());
+        //ProcessoSimulado primeiroProcessoSimulado;
+        Processo pprocesso;
+        
+        if(pipe(fd_filho) < 0) {
+            perror("pipe error");
+            exit(1);
+        }
 
         //inicia processo gerenciador de processos
-        iniciaProcessoControle(&gerenciador);
+        iniciaGerenciadorProcessos(&gerenciador);
 
-        
+        inicializaProcessoSimulado("./Arquivos/init.txt", &gerenciador.cpu.programa);
+
+        pprocesso.processoId = gerenciador.tabelaProcessos.Ultimo;
+        pprocesso.processoPaiId = getpid();
+        pprocesso.contadorPrograma = &gerenciador.cpu.programa->ContadorDePrograma;
+        pprocesso.processo = &gerenciador.cpu.programa;
+        pprocesso.estados = Pronto;
+        pprocesso.tempoInicio = gerenciador.tempoCPU;
+        pprocesso.tempoCpu = 0;
+        pprocesso.prioridade = 0;
+
+        insereNaLista(pprocesso, &gerenciador.tabelaProcessos); //insere processo na tabela de processos
+
+        //insereNaFila(0, &gerenciador.estadoPronto);
+
+        close(fd[1]);
+        read(fd[0], stringRecebida, sizeof(stringRecebida));
+        //close(fd[0]);
+        printf("String recebida: %s | PID: %i\n", stringRecebida, getpid());
+
+        //executa a partir da entrada
+
+        for(int i = 0 ; i < sizeof(stringRecebida); i++){
+
+            if(stringRecebida[i] == 'M') {
+                printf("exec %c\n", stringRecebida[i]);
+                break;
+            } else if (stringRecebida[i] == 'U') {
+                printf("exec %c\n", stringRecebida[i]);
+
+                executaProximaInstrucaoProcessoSimulado(&gerenciador);
+                //atualizar o q for necessario
+
+
+
+            }
+        }
         
         return 0;
     }
