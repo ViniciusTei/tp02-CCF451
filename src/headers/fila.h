@@ -9,11 +9,11 @@
 typedef struct TipoCelula  *TipoApontadorCelulaFila;
 typedef struct TipoCelula {
   int indiceTabelaProcessos;
-  TipoApontadorCelulaFila *Prox;
+  TipoApontadorCelulaFila Prox;
 } TipoCelula;
 
 typedef struct TipoFila {
-  TipoCelula *Frente, *Tras;
+  TipoApontadorCelulaFila Frente, Tras;
 } TipoFila;
 
 void iniciaFilaVazia(TipoFila *Fila);

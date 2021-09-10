@@ -59,7 +59,7 @@ void iniciaProcessoControle () {
         //close(fd[1]);
         exit(0);
 
-        return 1;
+        return ;
     } 
     else { //processo filho       
         GerenciadorProcessos gerenciador;
@@ -74,12 +74,12 @@ void iniciaProcessoControle () {
         //inicia processo gerenciador de processos
         iniciaGerenciadorProcessos(&gerenciador);
 
-        inicializaProcessoSimulado("./Arquivos/init.txt", &gerenciador.cpu.programa);
+        inicializaProcessoSimulado("./Arquivos/init.txt", gerenciador.cpu.programa);
 
         pprocesso.processoId = gerenciador.tabelaProcessos.Ultimo;
         pprocesso.processoPaiId = getpid();
         pprocesso.contadorPrograma = &gerenciador.cpu.programa->ContadorDePrograma;
-        pprocesso.processo = &gerenciador.cpu.programa;
+        pprocesso.processo = gerenciador.cpu.programa;
         pprocesso.estados = Pronto;
         pprocesso.tempoInicio = gerenciador.tempoCPU;
         pprocesso.tempoCpu = 0;
@@ -112,7 +112,7 @@ void iniciaProcessoControle () {
             }
         }
         
-        return 0;
+        return ;
     }
 }
 
@@ -124,7 +124,7 @@ void lerArquivo(char* retorno){
     
     if( arquivo == NULL){
       printf("Erro ao abrir arquivo\n");
-      return NULL;
+      return ;
     }
     else{
       while( fscanf(arquivo, "%s", str) != EOF ){

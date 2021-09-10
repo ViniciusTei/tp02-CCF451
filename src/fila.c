@@ -23,7 +23,7 @@ int removeDaFila(TipoFila *Fila) {
     
     if (isFilaVazia(*Fila)) { 
         printf("Erro fila esta vazia\n"); 
-        return; 
+        return -1; 
     }
 
     aux = Fila->Frente;
