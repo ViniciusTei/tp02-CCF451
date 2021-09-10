@@ -15,7 +15,7 @@ all: $(OBJS)
 	$(CC) $(OBJ)/*.o -o $(BIN)/$(TARGET)
 
 fila.o: $(SRC)/fila.c
-	$(CC) -c $(SRC)/fila.c -o $(OBJ)/fila.o
+	$(CC) -c $(SRC)/fila.c -o $(OBJ)/fila.o -g
 
 gerenciadorProcessos.o: $(SRC)/gerenciadorProcessos.c
 	$(CC) -c $(SRC)/gerenciadorProcessos.c -o $(OBJ)/gerenciadorProcessos.o -g
