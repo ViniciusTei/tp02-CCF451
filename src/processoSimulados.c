@@ -2,8 +2,10 @@
 
 void inicializaProcessoSimulado(char* nomeArquivo, ProcessoSimulado *processo) {
     //inicializar o primeiro processo simulado
-    int inteiros;
-    int qtdLinhas = inicializaInstrucoes(nomeArquivo, processo->instrucoesPrograma, &inteiros);
+    processo = (ProcessoSimulado* ) malloc(sizeof(ProcessoSimulado));
+
+    int inteiros = 0, qtdLinhas = 0;
+    qtdLinhas = inicializaInstrucoes(nomeArquivo, processo->instrucoesPrograma, &inteiros);
     processo->QtdInstrucoes = qtdLinhas;
     processo->QntdInteiros = inteiros;
     processo->ContadorDePrograma = 0;
@@ -11,6 +13,7 @@ void inicializaProcessoSimulado(char* nomeArquivo, ProcessoSimulado *processo) {
 }
 
 int inicializaInstrucoes(char* nomeArquivo, Instrucao* instrucoes, int *qtdInteiros){
+  printf("FFFFF");
   int qtdLinhas, cont, valor,index;
   FILE *arq;
   char nomeArquivoNovo[100];
@@ -28,11 +31,11 @@ int inicializaInstrucoes(char* nomeArquivo, Instrucao* instrucoes, int *qtdIntei
     //dixava linha
     fscanf(arq, "%c", &instrucao);
     instrucoes[cont].instrucao = instrucao;
-    if((instrucoes[cont].instrucao == 'B')||(instrucoes[cont].instrucao == 'T')){
+    if((instrucoes[cont].instrucao == 'B') || (instrucoes[cont].instrucao == 'T')){
       //termina
-    }else if(((instrucoes[cont].instrucao == 'N')||(instrucoes[cont].instrucao == 'D')||(instrucoes[cont].instrucao == 'F'))
-    ||(instrucoes[cont].instrucao == 'R')||(instrucoes[cont].instrucao == 'S')||(instrucoes[cont].instrucao == 'A')||(instrucoes[cont].instrucao == 'V')){
-      if((instrucoes[cont].instrucao == 'N')||(instrucoes[cont].instrucao == 'D')||(instrucoes[cont].instrucao == 'F')){
+    }else if(((instrucoes[cont].instrucao == 'N') || (instrucoes[cont].instrucao == 'D') || (instrucoes[cont].instrucao == 'F'))
+     || (instrucoes[cont].instrucao == 'R') || (instrucoes[cont].instrucao == 'S') || (instrucoes[cont].instrucao == 'A') || (instrucoes[cont].instrucao == 'V')){
+      if((instrucoes[cont].instrucao == 'N') || (instrucoes[cont].instrucao == 'D') || (instrucoes[cont].instrucao == 'F')){
         fscanf(arq, "%d", &index);
         instrucoes[cont].index = index;
 

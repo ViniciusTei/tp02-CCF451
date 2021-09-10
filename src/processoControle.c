@@ -4,18 +4,17 @@ void iniciaProcessoControle () {
     int i;
     pid_t pid;
     int fd[2], fd_filho[2];
-    char stringEntrada[256];
-    char stringRecebida[256];
+    char stringEntrada[100];
+    char stringRecebida[100];
+
+    GerenciadorProcessos gerenciador;
+    //ProcessoSimulado primeiroProcessoSimulado;
+    Processo pprocesso;
     
     if(pipe(fd) < 0) {
         perror("pipe error");
         exit(1);
     }
-
-    /*     if(pipe(fd_filho) < 0) {
-            perror("pipe error");
-            exit(1);
-        } */
 
     if((pid = fork())<0){
         perror("fork error");
@@ -55,16 +54,14 @@ void iniciaProcessoControle () {
         printf("String enviada: %s\n", stringEntrada);
 
         //escreve no pipe
-        write(fd[1], stringEntrada, sizeof(stringEntrada) + 1);
+        write(fd[1], stringEntrada, sizeof(stringEntrada)+2);
         //close(fd[1]);
         exit(0);
 
         return ;
     } 
     else { //processo filho       
-        GerenciadorProcessos gerenciador;
-        //ProcessoSimulado primeiroProcessoSimulado;
-        Processo pprocesso;
+       
         
         if(pipe(fd_filho) < 0) {
             perror("pipe error");
@@ -111,7 +108,7 @@ void iniciaProcessoControle () {
 
             }
         }
-        
+        exit(0);
         return ;
     }
 }
