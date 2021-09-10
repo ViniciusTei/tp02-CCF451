@@ -7,8 +7,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <ctype.h>
-#include "gerenciadorProcessos.h"
-#include "processoSimulados.h"
+#include "executaProcesso.h"
 
 // typedef enum Comandos {
 //     U, L, I, M

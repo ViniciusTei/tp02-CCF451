@@ -33,7 +33,7 @@ void retiraDaLista(int indexToRemove, TabelaDeProcessos *Lista) {
 
 void imprimeLista(TabelaDeProcessos Lista) { 
     for (int i = Lista.Primeiro; i < (Lista.Ultimo); i++) {
-        printf("%d\n", Lista.Item[i]);
+        printf("%d\n", Lista.Item[i].processoId);
 
     }
 }  /* Imprime */

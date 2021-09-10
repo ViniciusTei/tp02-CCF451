@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "processoSimulados.h"
+#ifndef TABELA_PROCESSOS
+#define TABELA_PROCESSOS
 
+#include "processoSimulados.h"
 
 #define MAXTAM 1000
 
@@ -33,3 +33,5 @@ int isListaVazia(TabelaDeProcessos Lista);
 void insereNaLista(Processo x, TabelaDeProcessos *Lista);
 void retiraDaLista(int indexToRemove, TabelaDeProcessos *Lista);
 void imprimeLista(TabelaDeProcessos Lista);
+
+#endif

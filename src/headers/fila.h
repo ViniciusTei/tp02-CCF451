@@ -1,3 +1,6 @@
+#ifndef FILA
+#define FILA
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -18,3 +21,5 @@ int isFilaVazia(TipoFila Fila);
 void insereNaFila(int x, TipoFila *Fila);
 int removeDaFila(TipoFila *Fila);
 void imprimeFila(TipoFila Fila);
+
+#endif

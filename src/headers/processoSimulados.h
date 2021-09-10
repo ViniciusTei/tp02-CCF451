@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "gerenciadorProcessos.h"
 /*
  * struct para instrucao ao ler o arquivo
  * N x -> intrucao | index
