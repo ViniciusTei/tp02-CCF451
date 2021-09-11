@@ -21,14 +21,14 @@ typedef struct Instrucao{
 typedef struct ProcessoSimulado{
   int QntdInteiros;
   // int Alocado_V_inteiros;
-  // int *Inteiro; //quantidade de inteiros do processo pai
-  int ContadorDePrograma;
+  int *inteirosAlocados; //vetor de inteiros alocados ate o momento eh uma referencia para o vetor de inteiros da CPU
+  int ContadorDePrograma; //contador de instrucao do processo
   int QtdInstrucoes;
   Instrucao* instrucoesPrograma;
 } ProcessoSimulado;
 
-void inicializaProcessoSimulado(char* nomeArquivo, ProcessoSimulado *processo);
+void inicializaProcessoSimulado(char* nomeArquivo, ProcessoSimulado **processo);
 int contadorInstrucoes(char* nomeArquivo);
-int inicializaInstrucoes(char* nomeArquivo, Instrucao* instrucoes, int *qtdInteiros);
-
+int inicializaInstrucoes(char* nomeArquivo, Instrucao** instrucoes, int *qtdInteiros);
+void imprimeProcessoSimulado(ProcessoSimulado processo);
 #endif

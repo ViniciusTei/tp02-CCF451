@@ -8,8 +8,10 @@ void iniciaProcessoControle () {
     char stringRecebida[100];
 
     GerenciadorProcessos gerenciador;
-    //ProcessoSimulado primeiroProcessoSimulado;
+    ProcessoSimulado *primeiroProcessoSimulado;
     Processo pprocesso;
+
+    int removidoBloquado, removidoPronto;
     
     if(pipe(fd) < 0) {
         perror("pipe error");
@@ -70,13 +72,15 @@ void iniciaProcessoControle () {
 
         //inicia processo gerenciador de processos
         iniciaGerenciadorProcessos(&gerenciador);
+        inicializaProcessoSimulado("./Arquivos/init.txt", &primeiroProcessoSimulado);
 
-        inicializaProcessoSimulado("./Arquivos/init.txt", gerenciador.cpu.programa);
-
+        gerenciador.quantidadeProcesos++;
+        gerenciador.cpu.programa = primeiroProcessoSimulado;
+        
         pprocesso.processoId = gerenciador.tabelaProcessos.Ultimo;
         pprocesso.processoPaiId = getpid();
-        pprocesso.contadorPrograma = &gerenciador.cpu.programa->ContadorDePrograma;
-        pprocesso.processo = gerenciador.cpu.programa;
+        pprocesso.contadorPrograma = &primeiroProcessoSimulado->ContadorDePrograma;
+        pprocesso.processo = primeiroProcessoSimulado;
         pprocesso.estados = Pronto;
         pprocesso.tempoInicio = gerenciador.tempoCPU;
         pprocesso.tempoCpu = 0;
@@ -97,7 +101,7 @@ void iniciaProcessoControle () {
 
             if(stringRecebida[i] == 'M') {
                 printf("exec %c\n", stringRecebida[i]);
-                break;
+                executaProcessoImpressao(gerenciador, TRUE);
             } else if (stringRecebida[i] == 'U') {
                 printf("exec %c\n", stringRecebida[i]);
 
@@ -106,6 +110,16 @@ void iniciaProcessoControle () {
 
 
 
+            } else if(stringRecebida[i] == 'L') {
+                printf("exec %c\n", stringRecebida[i]);
+
+                removidoBloquado = removeDaFila(&gerenciador.estadoBloqueado);
+                insereNaFila(removidoBloquado, &gerenciador.estadoPronto);
+            } else if(stringRecebida[i] == 'I') {
+                printf("exec %c\n", stringRecebida[i]);
+
+                //processo impressao
+                executaProcessoImpressao(gerenciador, FALSE);
             }
         }
         exit(0);
@@ -142,6 +156,9 @@ void lerTerminal(char* retorno){
     
     do {
         scanf("%c",&comando);
+        if(comando>=97 && comando<=120){
+            comando=comando-32;
+        }
         retorno[i] = comando;
         strcat(retorno, " ");
         i++;

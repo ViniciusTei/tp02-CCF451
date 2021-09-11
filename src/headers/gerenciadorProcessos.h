@@ -18,8 +18,9 @@ typedef struct GerenciadorProcessos {
     TabelaDeProcessos tabelaProcessos;
     CPU cpu;
     int tempoCPU; //tempo global atual
+    int quantidadeProcesos;
 } GerenciadorProcessos;
 
 void iniciaGerenciadorProcessos(GerenciadorProcessos *gerenciador);
-
+void imprimeCPU(CPU cpu);
 #endif

@@ -1,19 +1,19 @@
 #include "headers/processoSimulados.h"
 
-void inicializaProcessoSimulado(char* nomeArquivo, ProcessoSimulado *processo) {
+void inicializaProcessoSimulado(char* nomeArquivo, ProcessoSimulado **processo) {
     //inicializar o primeiro processo simulado
-    processo = (ProcessoSimulado* ) malloc(sizeof(ProcessoSimulado));
+    *processo = (ProcessoSimulado* ) malloc(sizeof(ProcessoSimulado));
 
     int inteiros = 0, qtdLinhas = 0;
-    qtdLinhas = inicializaInstrucoes(nomeArquivo, processo->instrucoesPrograma, &inteiros);
-    processo->QtdInstrucoes = qtdLinhas;
-    processo->QntdInteiros = inteiros;
-    processo->ContadorDePrograma = 0;
+    qtdLinhas = inicializaInstrucoes(nomeArquivo, &(*processo)->instrucoesPrograma, &inteiros);
+    (*processo)->inteirosAlocados = NULL;
+    (*processo)->QtdInstrucoes = qtdLinhas;
+    (*processo)->QntdInteiros = inteiros;
+    (*processo)->ContadorDePrograma = 0;
   
 }
 
-int inicializaInstrucoes(char* nomeArquivo, Instrucao* instrucoes, int *qtdInteiros){
-  printf("FFFFF");
+int inicializaInstrucoes(char* nomeArquivo, Instrucao** instrucoes, int *qtdInteiros){
   int qtdLinhas, cont, valor,index;
   FILE *arq;
   char nomeArquivoNovo[100];
@@ -22,7 +22,7 @@ int inicializaInstrucoes(char* nomeArquivo, Instrucao* instrucoes, int *qtdIntei
   qtdLinhas = contadorInstrucoes(nomeArquivo);
   //printf("\nQtdLinhas: %d\n", qtdLinhas);
   //aloca o numero exato de instrucoes
-  instrucoes = malloc(qtdLinhas * sizeof (Instrucao));
+  *instrucoes = malloc(qtdLinhas * sizeof (Instrucao));
   //Abre arquivo
   arq = fopen(nomeArquivo,"rt");
   //adicionar instrucoes no vetor;
@@ -30,26 +30,26 @@ int inicializaInstrucoes(char* nomeArquivo, Instrucao* instrucoes, int *qtdIntei
     //Pega linha
     //dixava linha
     fscanf(arq, "%c", &instrucao);
-    instrucoes[cont].instrucao = instrucao;
-    if((instrucoes[cont].instrucao == 'B') || (instrucoes[cont].instrucao == 'T')){
+    (*instrucoes)[cont].instrucao = instrucao;
+    if(((*instrucoes)[cont].instrucao == 'B') || ((*instrucoes)[cont].instrucao == 'T')){
       //termina
-    }else if(((instrucoes[cont].instrucao == 'N') || (instrucoes[cont].instrucao == 'D') || (instrucoes[cont].instrucao == 'F'))
-     || (instrucoes[cont].instrucao == 'R') || (instrucoes[cont].instrucao == 'S') || (instrucoes[cont].instrucao == 'A') || (instrucoes[cont].instrucao == 'V')){
-      if((instrucoes[cont].instrucao == 'N') || (instrucoes[cont].instrucao == 'D') || (instrucoes[cont].instrucao == 'F')){
+    }else if((((*instrucoes)[cont].instrucao == 'N') || ((*instrucoes)[cont].instrucao == 'D') || ((*instrucoes)[cont].instrucao == 'F'))
+     || ((*instrucoes)[cont].instrucao == 'R') || ((*instrucoes)[cont].instrucao == 'S') || ((*instrucoes)[cont].instrucao == 'A') || ((*instrucoes)[cont].instrucao == 'V')){
+      if(((*instrucoes)[cont].instrucao == 'N') || ((*instrucoes)[cont].instrucao == 'D') || ((*instrucoes)[cont].instrucao == 'F')){
         fscanf(arq, "%d", &index);
-        instrucoes[cont].index = index;
+        (*instrucoes)[cont].index = index;
 
-        if(cont == 0 && instrucoes[cont].instrucao == 'N') {
+        if(cont == 0 && (*instrucoes)[cont].instrucao == 'N') {
           *qtdInteiros = index;
         }
 
-      }else if(instrucoes[cont].instrucao == 'R'){ // R
+      }else if((*instrucoes)[cont].instrucao == 'R'){ // R
         fscanf(arq, "%s", nomeArquivoNovo);
-        strcpy(instrucoes[cont].nomeArquivo,nomeArquivoNovo);
+        strcpy((*instrucoes)[cont].nomeArquivo,nomeArquivoNovo);
       }else{
         fscanf(arq, "%d" "%d", &index, &valor);
-        instrucoes[cont].index = index;
-        instrucoes[cont].valor = valor;
+        (*instrucoes)[cont].index = index;
+        (*instrucoes)[cont].valor = valor;
       }
     }else{
       cont--; // como o primeiro caracter era espaço temos que voltar o contador, sempre que nao pegar nenhum caracter
@@ -80,3 +80,6 @@ int contadorInstrucoes(char* nomeArquivo){
   return contLinhas;
 }
 
+void imprimeProcessoSimulado(ProcessoSimulado processo) {
+  printf("Processo simulado\n");
+}

@@ -11,5 +11,6 @@
 #include "gerenciadorProcessos.h"
 
 void executaProximaInstrucaoProcessoSimulado(GerenciadorProcessos *gerenciador);
+void executaProcessoImpressao(GerenciadorProcessos gerenciador, int imprimeTempoMedio);
 
 #endif

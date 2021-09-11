@@ -9,9 +9,8 @@
 #include <ctype.h>
 #include "executaProcesso.h"
 
-// typedef enum Comandos {
-//     U, L, I, M
-// } Comandos;
+#define TRUE 1
+#define FALSE 0
 
 void iniciaProcessoControle ();
 void lerArquivo(char* retorno);
