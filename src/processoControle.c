@@ -110,14 +110,11 @@ void iniciaProcessoControle () {
         }
 
         insereNaLista(pprocesso, &gerenciador.tabelaProcessos); //insere processo na tabela de processos
-
-        //gerenciador.cpu.processoAtual = &pprocesso;
         
         x.indeceTabelaProcessos = pprocesso.processoId;
         x.prioridade = &pprocesso.prioridade;
 
         insereNaFila(x, &gerenciador.estadoPronto);
-        imprimeFila(gerenciador.estadoPronto);
         
         gerenciador.estadoExec = removeDaFila(&gerenciador.estadoPronto);        
         gerenciador.tabelaProcessos.Item[gerenciador.estadoExec].estados = Execucao;
