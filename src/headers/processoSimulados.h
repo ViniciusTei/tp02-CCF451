@@ -1,3 +1,11 @@
+/**
+ * Implementacao de uma estrutura pra o processo simulado,
+ * nela salvamos todo o arquivo para ser utilizado posteriormente.
+ * Assim, fazemos apenas uma leitura no arquivo mantendo todos os 
+ * enderecos e valores associados em memoria.
+ * 
+ * Authors: Vinicius, Arthur, Matheus, Lucas
+*/
 #ifndef PROCESSO_SIMULADOS
 #define PROCESSO_SIMULADOS
 
@@ -5,12 +13,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-/*
- * struct para instrucao ao ler o arquivo
- * N x -> intrucao | index
- * D x -> intrucao | index
- * V x y -> intrucao | index | valor
- */
 
 typedef struct Instrucao{
   int index; // caso de N numero de index
@@ -30,7 +32,7 @@ typedef struct ProcessoSimulado{
 } ProcessoSimulado;
 
 ProcessoSimulado inicializaProcessoSimulado(char* nomeArquivo);
-int contadorInstrucoes(char* nomeArquivo);
+int _contadorInstrucoes(char* nomeArquivo);
 int inicializaInstrucoes(char* nomeArquivo, Instrucao** instrucoes, int *qtdInteiros);
 void imprimeProcessoSimulado(ProcessoSimulado processo);
 #endif

@@ -1,5 +1,15 @@
 #include "headers/processoControle.h"
 
+/*
+ * Function:  iniciaProcessoControle 
+ * 
+ * Inicia um processo pai que vai receber as entradas do usuario
+ * e um processo filho que vai processar essas entradas.
+ *
+ * @params:
+ *
+ *  returns: void
+ */
 void iniciaProcessoControle () {
     int i;
     pid_t pid;
@@ -157,6 +167,16 @@ void iniciaProcessoControle () {
     }
 }
 
+/*
+ * Function:  lerArquivo 
+ * 
+ * Pega a entrada a partir do arquivo de controle
+ *
+ * @params:
+ * retorno: string lida do arquivo
+ *
+ *  returns: void
+ */
 void lerArquivo(char* retorno){ 
     FILE *arquivo;
     char str[2];
@@ -178,6 +198,16 @@ void lerArquivo(char* retorno){
     
 }
 
+/*
+ * Function:  lerTerminal 
+ * 
+ * Pega a entrada a partir do terminal do usuario
+ *
+ * @params:
+ * retorno: string lida do terminal
+ *
+ *  returns: void
+ */
 void lerTerminal(char* retorno){
     char comando;
     int i = 0;
@@ -198,7 +228,17 @@ void lerTerminal(char* retorno){
     
 }
 
-//função para remover o \n
+/*
+ * Function:  remove_char 
+ * 
+ * Funcao auxiliar que remove um char de uma string
+ *
+ * @params:
+ * str: string que queremos trabalhar
+ * c: char que queremos remover da string
+ *
+ *  returns: void
+ */
 void remove_char(char* str, char c) {
     char *pr= str, *pw = str;
 

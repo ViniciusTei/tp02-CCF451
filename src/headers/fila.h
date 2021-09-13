@@ -1,3 +1,10 @@
+/**
+ * Implementacao de uma estrutura de fila de prioridades,
+ * vamos utilizar esse arquivo para abtrair as filas utilizadas 
+ * pelo gerenciador
+ * 
+ * Authors: Vinicius, Arthur, Matheus, Lucas
+*/
 #ifndef FILA
 #define FILA
 

@@ -1,3 +1,8 @@
+/**
+ * Implementacao de uma estrutura para o gerenciador de processos
+ * 
+ * Authors: Vinicius, Arthur, Matheus, Lucas
+*/
 #ifndef PROCESSO_GERENCIADOR
 #define PROCESSO_GERENCIADOR
 
@@ -10,7 +15,7 @@ typedef struct CPU {
     int fatiaTempo;
     int unidadesTempoUsadas;
     int quantidadeInteiros;
-    Processo *processoAtual; //incluir estrutura do Processo aqui
+    Processo *processoAtual;
 } CPU;
 
 typedef struct GerenciadorProcessos {
@@ -25,4 +30,5 @@ typedef struct GerenciadorProcessos {
 void iniciaGerenciadorProcessos(GerenciadorProcessos *gerenciador);
 void iniciaCPU(GerenciadorProcessos *gerenciador, ProcessoSimulado processo);
 void imprimeCPU(CPU cpu);
+
 #endif

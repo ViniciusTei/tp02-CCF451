@@ -1,14 +1,47 @@
 #include "headers/tabelaDeProcessos.h"
 
+/*
+ * Function:  inicializaListaVazia 
+ * 
+ * Inicia a tabela de processo vazia.
+ *
+ * @params:
+ * lista: tabela de processos que vamos trabalhar
+ *
+ *  returns: void
+ */
 void inicializaListaVazia(TabelaDeProcessos *lista) {
     lista->Primeiro = 0;
     lista->Ultimo = lista->Primeiro;
 }
 
+/*
+ * Function:  isListaVazia
+ * 
+ * Funcao que verifica se uma lista esta vazia.
+ *
+ * @params:
+ * lista: tabela de processos que vamos trabalhar
+ *
+ *  returns: 
+ *      1 se a lista esta vazia
+ *      0 se a lista tem algum conteudo
+ */
 int isListaVazia(TabelaDeProcessos Lista) { 
     return (Lista.Primeiro == Lista.Ultimo);
-}  /* Vazia */
+}
 
+/*
+ * Function:  insereNaLista
+ * 
+ * Inserimos um novo processo na tabela
+ *
+ * @params:
+ * x: itens da tabela de processos que queremos inserir
+ * Lista: tabela de processos que vamos trabalhar
+ *
+ *  returns: indice do item inserido
+ */
 int insereNaLista(Processo x, TabelaDeProcessos *Lista) { 
     if (Lista -> Ultimo > MAXTAM) {
         printf("Lista esta cheia\n");
@@ -18,8 +51,19 @@ int insereNaLista(Processo x, TabelaDeProcessos *Lista) {
     }
 
     return Lista->Ultimo - 1;
-}  /* Insere */
+}
 
+/*
+ * Function:  retiraDaLista
+ * 
+ * Removemos um item de um determinado indice
+ *
+ * @params:
+ * indexToRemove: index do item que queremos remover
+ * Lista: tabela de processos que vamos trabalhar
+ *
+ *  returns: void
+ */
 void retiraDaLista(int indexToRemove, TabelaDeProcessos *Lista) { 
 
     if (isListaVazia(*Lista) || indexToRemove >= Lista -> Ultimo) { 
@@ -31,8 +75,18 @@ void retiraDaLista(int indexToRemove, TabelaDeProcessos *Lista) {
     for (int i = indexToRemove; i < Lista -> Ultimo; i++)
         Lista -> Item[i] = Lista -> Item[i + 1];
 
-}  /* Retira */
+} 
 
+/*
+ * Function:  retiraDaLista
+ * 
+ * Imprime a tabela de processos formatada
+ *
+ * @params:
+ * Lista: tabela de processos que vamos trabalhar
+ *
+ *  returns: void
+ */
 void imprimeLista(TabelaDeProcessos Lista) {
     printf("\n\n------------------------------------------------------\n\n");
     printf("** Dados da Tabela de Processos ** \n\n");
@@ -111,5 +165,5 @@ void imprimeLista(TabelaDeProcessos Lista) {
     }
     
     printf("\n------------------------------------------------------\n");
-}  /* Imprime */
+}
 

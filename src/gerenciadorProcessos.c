@@ -1,5 +1,15 @@
 #include "headers/gerenciadorProcessos.h"
 
+/*
+ * Function:  iniciaGerenciadorProcessos 
+ * 
+ * Inicia as estrutura do gerenciador de processos
+ *
+ * @params:
+ * gerenciador: gerenciador com as estruturas que vamos trabalhar
+ *
+ *  returns: void
+ */
 void iniciaGerenciadorProcessos(GerenciadorProcessos *gerenciador) {
     inicializaListaVazia(&gerenciador->tabelaProcessos);
 
@@ -19,11 +29,18 @@ void iniciaGerenciadorProcessos(GerenciadorProcessos *gerenciador) {
 
 }
 
+/*
+ * Function:  iniciaCPU 
+ * 
+ * Copia os dados do processo simulado dado para a cpu
+ *
+ * @params:
+ * gerenciador: gerenciador com as estruturas que vamos trabalhar
+ * processo: processo simulado que queremos copiar
+ *
+ *  returns: void
+ */
 void iniciaCPU(GerenciadorProcessos *gerenciador, ProcessoSimulado processo) {
-   if (gerenciador->cpu.vetorMemoria != NULL){
-       //free(gerenciador->cpu.vetorMemoria);
-   }
-
     gerenciador->cpu.fatiaTempo = 10;
     gerenciador->cpu.contadorPrograma = processo.ContadorDePrograma;
     gerenciador->cpu.quantidadeInteiros = processo.QntdInteiros;
@@ -40,7 +57,16 @@ void iniciaCPU(GerenciadorProcessos *gerenciador, ProcessoSimulado processo) {
 }
 
 
-//todo atualizar impressao
+/*
+ * Function:  imprimeCPU 
+ * 
+ * Imprime os dados da cpu formatdos
+ *
+ * @params:
+ * cpu: cpu com os dados que queremos mostrar
+ *
+ *  returns: void
+ */
 void imprimeCPU(CPU cpu) {
     printf("\n\n------------------------------------------------------\n\n");
     printf("** Dados na CPU **\n\n");

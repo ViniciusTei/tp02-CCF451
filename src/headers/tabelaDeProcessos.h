@@ -1,9 +1,17 @@
+/**
+ * Implementacao de uma estrutura para a tabela de processos,
+ * utilizamos a estrutura de Lista para auxiliar nos processos
+ * de inserir e remover.
+ * 
+ * Authors: Vinicius, Arthur, Matheus, Lucas
+*/
 #ifndef TABELA_PROCESSOS
 #define TABELA_PROCESSOS
 
 #include "processoSimulados.h"
 
 #define MAXTAM 1000
+
 typedef enum Estados {
     Bloqueado = 0, 
     Pronto, 
@@ -13,7 +21,7 @@ typedef enum Estados {
 typedef struct Processo {
     pid_t processoId;
     pid_t processoPaiId;
-    int contadorPrograma; // verificar se vai ser preciso mesmo
+    int contadorPrograma; 
     ProcessoSimulado processo;
     int prioridade;
     Estados estados;
@@ -22,11 +30,10 @@ typedef struct Processo {
 } Processo;
 
 typedef struct {
-  Processo Item[MAXTAM]; // Substituir pelo tipo da Tabela de processos
+  Processo Item[MAXTAM];
   int Primeiro, Ultimo;
 } TabelaDeProcessos;
 
-/* Metodos da tabela de processos */
 void inicializaListaVazia(TabelaDeProcessos *lista);
 int isListaVazia(TabelaDeProcessos Lista);
 int insereNaLista(Processo x, TabelaDeProcessos *Lista);

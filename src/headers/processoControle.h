@@ -1,3 +1,10 @@
+/**
+ * Implementacao de um processo de controle que vai iniciar
+ * todas as estruturas e receber as entradas de usuario.
+ * 
+ * Authors: Vinicius, Arthur, Matheus, Lucas
+*/
+
 #ifndef PROCESSO_CONTROLE
 #define PROCESSO_CONTROLE
 

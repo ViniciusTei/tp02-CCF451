@@ -1,5 +1,17 @@
 #include "headers/processoSimulados.h"
 
+/*
+ * Function:  inicializaProcessoSimulado 
+ * 
+ * Cria e inicializa uma estrutura de um processo simulado.
+ * Lemos um arquivo com essa estrutura e salvamos em uma 
+ * variavel na memoria.
+ *
+ * @params:
+ * nomeArquivo: nome do arquivo com o processo simulado
+ *
+ *  returns: ProcessoSimulado 
+ */
 ProcessoSimulado inicializaProcessoSimulado(char* nomeArquivo) {
     //inicializar o primeiro processo simulado
     ProcessoSimulado *processo;
@@ -18,13 +30,26 @@ ProcessoSimulado inicializaProcessoSimulado(char* nomeArquivo) {
     return *processo;
 }
 
+/*
+ * Function:  inicializaInstrucoes 
+ * 
+ * Armazena as instrucoes na estrutura, lendo e 
+ * salvando os valores dependendo da instrucao lida.
+ *
+ * @params:
+ * nomeArquivo: nome do arquivo com o processo simulado
+ * instrucoes: o ponteiro onde vamos guardas as intrucoes
+ * qtdInteiros: o ponteiro onde vamos salvar a quantidade de inteiros
+ *
+ *  returns: a quantidade de instrucoes que lemos no arquivo 
+ */
 int inicializaInstrucoes(char* nomeArquivo, Instrucao** instrucoes, int *qtdInteiros){
   int qtdLinhas, cont, valor,index;
   FILE *arq;
   char nomeArquivoNovo[100];
   char instrucao;
   char numeros[100];
-  qtdLinhas = contadorInstrucoes(nomeArquivo);
+  qtdLinhas = _contadorInstrucoes(nomeArquivo);
   //printf("\nQtdLinhas: %d\n", qtdLinhas);
   //aloca o numero exato de instrucoes
   *instrucoes = (Instrucao *) malloc(qtdLinhas * sizeof (Instrucao));
@@ -61,13 +86,23 @@ int inicializaInstrucoes(char* nomeArquivo, Instrucao** instrucoes, int *qtdInte
     }
   }
   
-  printf("\nInstrução carregada\n");
   //fecha arquivo
   fclose(arq);
   return qtdLinhas;
 }
 
-int contadorInstrucoes(char* nomeArquivo){
+/*
+ * Function:  _contadorInstrucoes 
+ * 
+ * Funcao privada acessada apenas no processo simulado
+ * para contar o numero de instrucoes no arquivo.
+ *
+ * @params:
+ * nomeArquivo: nome do arquivo com o processo simulado
+ *
+ *  returns: a quantidade de instrucoes que lemos no arquivo 
+ */
+int _contadorInstrucoes(char* nomeArquivo){
   //declaração de variaveis
   FILE *arq;
   int contLinhas;
@@ -85,6 +120,16 @@ int contadorInstrucoes(char* nomeArquivo){
   return contLinhas;
 }
 
+/*
+ * Function:  imprimeProcessoSimulado 
+ * 
+ * Funcao para imprimir o estado de um processo simulado.
+ *
+ * @params:
+ * processo: processo simulado que vamos trabalhar
+ *
+ *  returns: void
+ */
 void imprimeProcessoSimulado(ProcessoSimulado processo) {
   printf("Processo simulado: %d\n", processo.QtdInstrucoes );
 

@@ -1,5 +1,17 @@
 #include "headers/executaProcesso.h"
 
+/*
+ * Function:  controleEscalonamento 
+ * 
+ * Metodo que chama a execucao de uma intrucao e faz o controle do escalonamento dos processos,
+ * atualiza a prioridade quando necessario e da lugar ao processo com prioridade
+ * mais alta.
+ *
+ * @params:
+ * gerenciador: gerencidade com as estruturas que vamos trabalhar
+ *
+ *  returns: void
+ */
 void controleEscalonamento(GerenciadorProcessos *gerenciador) {
   ProcessoSimulado *processoEmExecucao;
   TipoItem x;
@@ -84,6 +96,18 @@ void controleEscalonamento(GerenciadorProcessos *gerenciador) {
   
 }
 
+
+/*
+ * Function:  verificaPrioridadeProcessos 
+ * 
+ * Metodo que busca qual o processo com prioridade mais alta que a dada na fila de pronto
+ *
+ * @params:
+ * gerenciador: gerencidade com as estruturas que vamos trabalhar
+ * prioridade: prioridade que estamos buscando
+ *
+ *  returns: indice do item com prioridade mais alta
+ */
 int verificaPrioridadeProcessos(GerenciadorProcessos *gerenciador, Prioridade prioridade) {
     
     for(int i = 0; i < gerenciador->tabelaProcessos.Ultimo; i++) {
@@ -95,6 +119,17 @@ int verificaPrioridadeProcessos(GerenciadorProcessos *gerenciador, Prioridade pr
     return -1;
 }
 
+/*
+ * Function:  executaProximaInstrucaoProcessoSimulado 
+ * 
+ * Metodo que executa uma instrucao na cpu, atualizando as estruturas da
+ * cpu relacionadas.
+ *
+ * @params:
+ * gerenciador: gerencidade com as estruturas que vamos trabalhar
+ *
+ *  returns: void
+ */
 void executaProximaInstrucaoProcessoSimulado(GerenciadorProcessos *gerenciador) {
   Instrucao instrucaoAtual;
   int tamanho, removidoBloqueado, removidoPronto;
@@ -298,6 +333,18 @@ void executaProximaInstrucaoProcessoSimulado(GerenciadorProcessos *gerenciador) 
 
 }
 
+
+/*
+ * Function:  executaProcessoImpressao 
+ * 
+ * Metodo que inicia um processo de impressao
+ *
+ * @params:
+ * gerenciador: gerencidade com as estruturas que vamos trabalhar
+ * imprimeTempoMedio: booleano para mostrar ou nao o tempo medio
+ *
+ *  returns: void
+ */
 void executaProcessoImpressao(GerenciadorProcessos gerenciador, int imprimeTempoMedio) {
   
   imprimeCPU(gerenciador.cpu);
@@ -311,18 +358,26 @@ void executaProcessoImpressao(GerenciadorProcessos gerenciador, int imprimeTempo
   }
 }
 
+
+/*
+ * Function:  trocaContexto 
+ * 
+ * Metodo que copia os dados na cpu para a tabela de processos.
+ *
+ * @params:
+ * gerenciador: gerencidade com as estruturas que vamos trabalhar
+ *
+ *  returns: void
+ */
 void trocaContexto(GerenciadorProcessos *gerenciador) {
 
   gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].processo.ContadorDePrograma = gerenciador->cpu.contadorPrograma;
   gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].processo.QntdInteiros = gerenciador->cpu.quantidadeInteiros;
-  // memcpy(gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].processo->inteirosAlocados, gerenciador->cpu.vetorMemoria, sizeof(gerenciador->cpu.vetorMemoria));
   gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].tempoCpu = gerenciador->cpu.unidadesTempoUsadas;
   gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].processo.inteirosAlocados = (int *) malloc(sizeof(int) * gerenciador->cpu.quantidadeInteiros);
-  //gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].prioridade = gerenciador->cpu.processoAtualSimulado->prioridade;
 
   for(int i = 0; i < gerenciador->cpu.quantidadeInteiros; i++) {
     gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].processo.inteirosAlocados[i] = gerenciador->cpu.vetorMemoria[i];
-    printf("alocou: %d\n", gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].processo.inteirosAlocados[i]);
   }
   
 }
