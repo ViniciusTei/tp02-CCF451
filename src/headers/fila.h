@@ -6,9 +6,14 @@
 
 #define MAX 1000
 
+typedef struct TipoItem {
+  int indeceTabelaProcessos;
+  int *prioridade;
+} TipoItem;
+
 typedef struct TipoCelula  *TipoApontadorCelulaFila;
 typedef struct TipoCelula {
-  int indiceTabelaProcessos;
+  TipoItem item;
   TipoApontadorCelulaFila Prox;
 } TipoCelula;
 
@@ -18,7 +23,7 @@ typedef struct TipoFila {
 
 void iniciaFilaVazia(TipoFila *Fila);
 int isFilaVazia(TipoFila Fila);
-void insereNaFila(int x, TipoFila *Fila);
+void insereNaFila(TipoItem x, TipoFila *Fila);
 int removeDaFila(TipoFila *Fila);
 void imprimeFila(TipoFila Fila);
 

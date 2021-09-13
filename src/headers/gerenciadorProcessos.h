@@ -4,12 +4,13 @@
 #include "tabelaDeProcessos.h"
 #include "fila.h"
 
-typedef struct CPU{
-    ProcessoSimulado *programa;
+typedef struct CPU {
     int contadorPrograma;
     int *vetorMemoria;
     int fatiaTempo;
     int unidadesTempoUsadas;
+    int quantidadeInteiros;
+    Processo *processoAtual; //incluir estrutura do Processo aqui
 } CPU;
 
 typedef struct GerenciadorProcessos {
@@ -17,10 +18,11 @@ typedef struct GerenciadorProcessos {
     int estadoExec;
     TabelaDeProcessos tabelaProcessos;
     CPU cpu;
-    int tempoCPU; //tempo global atual
+    int tempoAtual; //tempo global atual
     int quantidadeProcesos;
 } GerenciadorProcessos;
 
 void iniciaGerenciadorProcessos(GerenciadorProcessos *gerenciador);
+void iniciaCPU(GerenciadorProcessos *gerenciador, ProcessoSimulado processo);
 void imprimeCPU(CPU cpu);
 #endif

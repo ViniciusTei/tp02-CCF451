@@ -100,7 +100,7 @@ O gerenciador de processos também implementa uma política de escalonamento. Vo
 
 Além da política de escalonamento descrita acima, o grupo deverá implementar uma outra política, baseada no que foi estudado na disciplina. Esta política deverá ser descrita no relatório de documentação em alto nível e como foi implementada. É um ponto importante também para a apresentação do trabalho.
 
-Gerenciador de processos: troca de contexto
+#### Gerenciador de processos: troca de contexto
 
 Troca de contexto envolve copiar o estado do processo simulado, atualmente em execução, de Cpu para TabelaDeProcessos (a não ser que esse processo tenha completado a sua execução) e copiar o estado do recém escalonado processo simulado de TabelaDeProcessos para Cpu.
 

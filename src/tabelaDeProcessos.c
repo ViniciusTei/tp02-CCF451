@@ -9,13 +9,15 @@ int isListaVazia(TabelaDeProcessos Lista) {
     return (Lista.Primeiro == Lista.Ultimo);
 }  /* Vazia */
 
-void insereNaLista(Processo x, TabelaDeProcessos *Lista) { 
+int insereNaLista(Processo x, TabelaDeProcessos *Lista) { 
     if (Lista -> Ultimo > MAXTAM) {
         printf("Lista esta cheia\n");
     } else { 
         Lista -> Item[Lista -> Ultimo] = x;
         Lista -> Ultimo++;
     }
+
+    return Lista->Ultimo - 1;
 }  /* Insere */
 
 void retiraDaLista(int indexToRemove, TabelaDeProcessos *Lista) { 
@@ -31,9 +33,12 @@ void retiraDaLista(int indexToRemove, TabelaDeProcessos *Lista) {
 
 }  /* Retira */
 
-void imprimeLista(TabelaDeProcessos Lista) { 
-    printf("\nDados da Tabela de Processos:\n");
+void imprimeLista(TabelaDeProcessos Lista) {
+    printf("\n\n------------------------------------------------------\n\n");
+    printf("** Dados da Tabela de Processos ** \n\n");
     for (int i = Lista.Primeiro; i < (Lista.Ultimo); i++) {
+        //imprimeProcessoSimulado(*Lista.Item[i].processo);
+        printf("\n------------------------------------------------------\n");
         printf("Processo número: %d\n", i);
         printf("ID do Processo: %d\n", Lista.Item[i].processoId);
         printf("ID do Processo Pai: %d\n", Lista.Item[i].processoPaiId);
@@ -56,47 +61,55 @@ void imprimeLista(TabelaDeProcessos Lista) {
         }
         
         printf("Prioridade do processo: %d\n", Lista.Item[i].prioridade);
-        printf("Contador de programa do processo: %d\n", Lista.Item[i].processo->ContadorDePrograma);
-        printf("Quantide de instruções do processo: %d\n", Lista.Item[i].processo->QtdInstrucoes);
-        printf("Quantide de inteiros do processo: %d\n", Lista.Item[i].processo->QntdInteiros);
+        printf("Contador de programa do processo: %d\n", Lista.Item[i].processo.ContadorDePrograma);
+        printf("Quantide de instruções do processo: %d\n", Lista.Item[i].processo.QtdInstrucoes);
+        printf("Quantide de inteiros do processo: %d\n", Lista.Item[i].processo.QntdInteiros);
         //printf("Tipo Instrução: %d\n", Lista.Item[i].processo->instrucoesPrograma->instrucao);
 
-        printf("Vetor de inteiros alocados:\n");
-        for(int j = 0; j < Lista.Item[i].processo->QntdInteiros; j++){
-            printf("Valor inteiro da variavel número %d: %d\n", j, Lista.Item[i].processo->inteirosAlocados[j]) ;
+        printf("Vetor de inteiros alocados:");
+        if(Lista.Item[i].processo.inteirosAlocados == NULL) {
+            printf("NULL\n");
+        } else {
+            printf("\n");
+            for(int j = 0; j < Lista.Item[i].processo.QntdInteiros; j++){
+                printf("Valor inteiro da variavel número %d: %d\n", j, Lista.Item[i].processo.inteirosAlocados[j]) ;
+            }
         }
+        
 
         printf("Instruções:\n");
-        for (int z = 0; z < Lista.Item[i].processo->QtdInstrucoes; z++){
-            switch (Lista.Item[i].processo->instrucoesPrograma[z].instrucao){
+        for (int z = 0; z < Lista.Item[i].processo.QtdInstrucoes; z++){
+            switch (Lista.Item[i].processo.instrucoesPrograma[z].instrucao){
                 case 'N':
-                    printf("Instrução N    Numero de Variaveis: %d\n", Lista.Item[i].processo->instrucoesPrograma[z].index);
+                    printf("Instrução N    Numero de Variaveis: %d\n", Lista.Item[i].processo.instrucoesPrograma[z].index);
                     break;
                 case 'D':
-                    printf("Instrução D    Index: %d\n", Lista.Item[i].processo->instrucoesPrograma[z].index);
+                    printf("Instrução D    Index: %d\n", Lista.Item[i].processo.instrucoesPrograma[z].index);
                     break;
                 case 'V':
-                    printf("Instrução V    Index: %d    Valor: %d\n", Lista.Item[i].processo->instrucoesPrograma[z].index, 
-                    Lista.Item[i].processo->instrucoesPrograma[z].valor);
+                    printf("Instrução V    Index: %d    Valor: %d\n", Lista.Item[i].processo.instrucoesPrograma[z].index, 
+                    Lista.Item[i].processo.instrucoesPrograma[z].valor);
                     break;
                 case 'A':
-                    printf("Instrução A    Index: %d    Valor: %d\n", Lista.Item[i].processo->instrucoesPrograma[z].index, 
-                    Lista.Item[i].processo->instrucoesPrograma[z].valor);
+                    printf("Instrução A    Index: %d    Valor: %d\n", Lista.Item[i].processo.instrucoesPrograma[z].index, 
+                    Lista.Item[i].processo.instrucoesPrograma[z].valor);
                     break;
                 case 'S':
-                    printf("Instrução S    Index: %d    Valor: %d\n", Lista.Item[i].processo->instrucoesPrograma[z].index,
-                    Lista.Item[i].processo->instrucoesPrograma[z].valor);
+                    printf("Instrução S    Index: %d    Valor: %d\n", Lista.Item[i].processo.instrucoesPrograma[z].index,
+                    Lista.Item[i].processo.instrucoesPrograma[z].valor);
                     break;
                 case 'F':
-                    printf("Instrução F    Quantidade de instruções: %d\n", Lista.Item[i].processo->instrucoesPrograma[z].index);
+                    printf("Instrução F    Quantidade de instruções: %d\n", Lista.Item[i].processo.instrucoesPrograma[z].index);
                     break;
                 case 'R':
-                    printf("Instrução R    Nome do arquivo: %s\n", Lista.Item[i].processo->instrucoesPrograma[z].nomeArquivo);
+                    printf("Instrução R    Nome do arquivo: %s\n", Lista.Item[i].processo.instrucoesPrograma[z].nomeArquivo);
                     break;
                 default:
                     break;
             }
         }
     }
+    
+    printf("\n------------------------------------------------------\n");
 }  /* Imprime */
 

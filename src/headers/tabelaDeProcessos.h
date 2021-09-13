@@ -4,7 +4,6 @@
 #include "processoSimulados.h"
 
 #define MAXTAM 1000
-
 typedef enum Estados {
     Bloqueado = 0, 
     Pronto, 
@@ -14,8 +13,8 @@ typedef enum Estados {
 typedef struct Processo {
     pid_t processoId;
     pid_t processoPaiId;
-    int *contadorPrograma; // verificar se vai ser preciso mesmo
-    ProcessoSimulado *processo;
+    int contadorPrograma; // verificar se vai ser preciso mesmo
+    ProcessoSimulado processo;
     int prioridade;
     Estados estados;
     int tempoInicio;
@@ -30,7 +29,7 @@ typedef struct {
 /* Metodos da tabela de processos */
 void inicializaListaVazia(TabelaDeProcessos *lista);
 int isListaVazia(TabelaDeProcessos Lista);
-void insereNaLista(Processo x, TabelaDeProcessos *Lista);
+int insereNaLista(Processo x, TabelaDeProcessos *Lista);
 void retiraDaLista(int indexToRemove, TabelaDeProcessos *Lista);
 void imprimeLista(TabelaDeProcessos Lista);
 

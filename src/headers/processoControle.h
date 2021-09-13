@@ -9,9 +9,6 @@
 #include <ctype.h>
 #include "executaProcesso.h"
 
-#define TRUE 1
-#define FALSE 0
-
 void iniciaProcessoControle ();
 void lerArquivo(char* retorno);
 void lerTerminal(char* retorno);

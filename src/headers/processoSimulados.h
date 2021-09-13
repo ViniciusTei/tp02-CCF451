@@ -11,6 +11,7 @@
  * D x -> intrucao | index
  * V x y -> intrucao | index | valor
  */
+
 typedef struct Instrucao{
   int index; // caso de N numero de index
   int valor;
@@ -20,10 +21,11 @@ typedef struct Instrucao{
 
 typedef struct ProcessoSimulado{
   int QntdInteiros;
-  // int Alocado_V_inteiros;
+  int processoId;
   int *inteirosAlocados; //vetor de inteiros alocados ate o momento eh uma referencia para o vetor de inteiros da CPU
   int ContadorDePrograma; //contador de instrucao do processo
   int QtdInstrucoes;
+  int prioridade;
   Instrucao* instrucoesPrograma;
 } ProcessoSimulado;
 

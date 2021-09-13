@@ -10,7 +10,8 @@ void inicializaProcessoSimulado(char* nomeArquivo, ProcessoSimulado **processo) 
     (*processo)->QtdInstrucoes = qtdLinhas;
     (*processo)->QntdInteiros = inteiros;
     (*processo)->ContadorDePrograma = 0;
-  
+    // (*processo)->processoId = rand() % 10000;
+    (*processo)->prioridade = 0;
 }
 
 int inicializaInstrucoes(char* nomeArquivo, Instrucao** instrucoes, int *qtdInteiros){
@@ -82,4 +83,8 @@ int contadorInstrucoes(char* nomeArquivo){
 
 void imprimeProcessoSimulado(ProcessoSimulado processo) {
   printf("Processo simulado\n");
+
+  for(int i = 0; i < processo.QtdInstrucoes; i++) {
+    printf("Instrucao: %c\n", processo.instrucoesPrograma[i].instrucao);
+  }
 }

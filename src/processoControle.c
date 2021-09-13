@@ -10,6 +10,7 @@ void iniciaProcessoControle () {
     GerenciadorProcessos gerenciador;
     ProcessoSimulado *primeiroProcessoSimulado;
     Processo pprocesso;
+    TipoItem x;
 
     int removidoBloquado, removidoPronto;
     
@@ -30,7 +31,7 @@ void iniciaProcessoControle () {
         //pede do usuario qual o tipo de entrada arquivo ou terminal
         int entradaUsuario;
         do {
-            sleep(1);
+            sleep(2);
             printf("Deseja ler a entrada de um arquivo ou terminal?\n");
             printf("1. Terminal\n");
             printf("2. Arquivo\n");
@@ -72,23 +73,33 @@ void iniciaProcessoControle () {
 
         //inicia processo gerenciador de processos
         iniciaGerenciadorProcessos(&gerenciador);
-        inicializaProcessoSimulado("./Arquivos/init.txt", &primeiroProcessoSimulado);
+        inicializaProcessoSimulado("./Arquivos/test.txt", &primeiroProcessoSimulado);
 
         gerenciador.quantidadeProcesos++;
-        gerenciador.cpu.programa = primeiroProcessoSimulado;
-        
         pprocesso.processoId = gerenciador.tabelaProcessos.Ultimo;
         pprocesso.processoPaiId = getpid();
         pprocesso.contadorPrograma = &primeiroProcessoSimulado->ContadorDePrograma;
-        pprocesso.processo = primeiroProcessoSimulado;
+        pprocesso.processo = *primeiroProcessoSimulado;
         pprocesso.estados = Pronto;
-        pprocesso.tempoInicio = gerenciador.tempoCPU;
+        pprocesso.tempoInicio = gerenciador.tempoAtual;
         pprocesso.tempoCpu = 0;
-        pprocesso.prioridade = 0;
+        pprocesso.prioridade = primeiroProcessoSimulado->prioridade;
 
         insereNaLista(pprocesso, &gerenciador.tabelaProcessos); //insere processo na tabela de processos
 
-        //insereNaFila(0, &gerenciador.estadoPronto);
+        gerenciador.cpu.processoAtual = &pprocesso;
+        
+        x.indeceTabelaProcessos = pprocesso.processoId;
+        x.prioridade = &pprocesso.prioridade;
+
+        insereNaFila(x, &gerenciador.estadoPronto);
+        imprimeFila(gerenciador.estadoPronto);
+        
+        gerenciador.estadoExec = removeDaFila(&gerenciador.estadoPronto);        
+        gerenciador.tabelaProcessos.Item[gerenciador.estadoExec].estados = Execucao;
+
+        iniciaCPU(&gerenciador, *primeiroProcessoSimulado);       
+        gerenciador.cpu.processoAtual = &gerenciador.tabelaProcessos.Item[gerenciador.estadoExec];
 
         close(fd[1]);
         read(fd[0], stringRecebida, sizeof(stringRecebida));
@@ -100,24 +111,29 @@ void iniciaProcessoControle () {
         for(int i = 0 ; i < sizeof(stringRecebida); i++){
 
             if(stringRecebida[i] == 'M') {
-                printf("exec %c\n", stringRecebida[i]);
                 executaProcessoImpressao(gerenciador, TRUE);
-            } else if (stringRecebida[i] == 'U') {
-                printf("exec %c\n", stringRecebida[i]);
 
-                executaProximaInstrucaoProcessoSimulado(&gerenciador);
+                //finaliza execucao
+                exit(0);
+                return;
+            } else if (stringRecebida[i] == 'U') {
+                controleEscalonamento(&gerenciador);
                 //atualizar o q for necessario
 
-
-
             } else if(stringRecebida[i] == 'L') {
-                printf("exec %c\n", stringRecebida[i]);
-
                 removidoBloquado = removeDaFila(&gerenciador.estadoBloqueado);
-                insereNaFila(removidoBloquado, &gerenciador.estadoPronto);
-            } else if(stringRecebida[i] == 'I') {
-                printf("exec %c\n", stringRecebida[i]);
 
+                if(removidoBloquado > -1) {
+                    x.indeceTabelaProcessos = removidoBloquado;
+                    x.prioridade = &gerenciador.tabelaProcessos.Item[removidoBloquado].prioridade;
+
+                    insereNaFila(x, &gerenciador.estadoPronto);
+                } else {
+                    printf("Nao existem processos para desbloquear!\n");
+                }
+
+                
+            } else if(stringRecebida[i] == 'I') {
                 //processo impressao
                 executaProcessoImpressao(gerenciador, FALSE);
             }
