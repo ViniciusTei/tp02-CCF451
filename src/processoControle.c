@@ -8,7 +8,7 @@ void iniciaProcessoControle () {
     char stringRecebida[100];
 
     GerenciadorProcessos gerenciador;
-    ProcessoSimulado *primeiroProcessoSimulado;
+    ProcessoSimulado primeiroProcessoSimulado;
     Processo pprocesso;
     TipoItem x;
 
@@ -73,21 +73,35 @@ void iniciaProcessoControle () {
 
         //inicia processo gerenciador de processos
         iniciaGerenciadorProcessos(&gerenciador);
-        inicializaProcessoSimulado("./Arquivos/test.txt", &primeiroProcessoSimulado);
+        primeiroProcessoSimulado = inicializaProcessoSimulado("./Arquivos/test.txt");
 
         gerenciador.quantidadeProcesos++;
         pprocesso.processoId = gerenciador.tabelaProcessos.Ultimo;
         pprocesso.processoPaiId = getpid();
-        pprocesso.contadorPrograma = &primeiroProcessoSimulado->ContadorDePrograma;
-        pprocesso.processo = *primeiroProcessoSimulado;
+        pprocesso.contadorPrograma = primeiroProcessoSimulado.ContadorDePrograma;
         pprocesso.estados = Pronto;
         pprocesso.tempoInicio = gerenciador.tempoAtual;
         pprocesso.tempoCpu = 0;
-        pprocesso.prioridade = primeiroProcessoSimulado->prioridade;
+        pprocesso.prioridade = primeiroProcessoSimulado.prioridade;
+        
+        pprocesso.processo.processoId = primeiroProcessoSimulado.processoId;
+        pprocesso.processo.ContadorDePrograma = primeiroProcessoSimulado.ContadorDePrograma;
+        pprocesso.processo.prioridade = primeiroProcessoSimulado.prioridade;
+        pprocesso.processo.QntdInteiros = primeiroProcessoSimulado.QntdInteiros;
+        pprocesso.processo.QtdInstrucoes = primeiroProcessoSimulado.QtdInstrucoes;
+
+        pprocesso.processo.instrucoesPrograma = (Instrucao *) malloc(sizeof(Instrucao) * pprocesso.processo.QtdInstrucoes);
+
+        for(int i = 0; i < pprocesso.processo.QtdInstrucoes; i++) {
+            pprocesso.processo.instrucoesPrograma[i].index = primeiroProcessoSimulado.instrucoesPrograma[i].index;
+            pprocesso.processo.instrucoesPrograma[i].instrucao = primeiroProcessoSimulado.instrucoesPrograma[i].instrucao;
+            pprocesso.processo.instrucoesPrograma[i].valor = primeiroProcessoSimulado.instrucoesPrograma[i].valor;
+            strcpy(pprocesso.processo.instrucoesPrograma[i].nomeArquivo, primeiroProcessoSimulado.instrucoesPrograma[i].nomeArquivo);
+        }
 
         insereNaLista(pprocesso, &gerenciador.tabelaProcessos); //insere processo na tabela de processos
 
-        gerenciador.cpu.processoAtual = &pprocesso;
+        //gerenciador.cpu.processoAtual = &pprocesso;
         
         x.indeceTabelaProcessos = pprocesso.processoId;
         x.prioridade = &pprocesso.prioridade;
@@ -98,7 +112,7 @@ void iniciaProcessoControle () {
         gerenciador.estadoExec = removeDaFila(&gerenciador.estadoPronto);        
         gerenciador.tabelaProcessos.Item[gerenciador.estadoExec].estados = Execucao;
 
-        iniciaCPU(&gerenciador, *primeiroProcessoSimulado);       
+        iniciaCPU(&gerenciador, primeiroProcessoSimulado);       
         gerenciador.cpu.processoAtual = &gerenciador.tabelaProcessos.Item[gerenciador.estadoExec];
 
         close(fd[1]);

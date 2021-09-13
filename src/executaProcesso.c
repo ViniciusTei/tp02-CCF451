@@ -9,10 +9,11 @@ void controleEscalonamento(GerenciadorProcessos *gerenciador) {
 
   gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].prioridade = gerenciador->cpu.processoAtual->prioridade;
   
-  if(gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].prioridade == MUITO_ALTA) {
+  if(gerenciador->cpu.processoAtual->prioridade == MUITO_ALTA) {
 
     
     gerenciador->cpu.unidadesTempoUsadas++; //atualiza uma unidade de tempo 
+    printf("Uso CPU: %d%\n", gerenciador->cpu.unidadesTempoUsadas * 10);
 
     if(gerenciador->cpu.unidadesTempoUsadas >= gerenciador->cpu.fatiaTempo) {
       gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].prioridade = ALTA; //muda a prioridade do processo
@@ -49,10 +50,10 @@ void controleEscalonamento(GerenciadorProcessos *gerenciador) {
     //printf("Prioridade alterada\n");
     int index = verificaPrioridadeProcessos(gerenciador, gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].prioridade);
 
-    //printf("Em execucao: %d | Proximo: %d \n", gerenciador->estadoExec, index);
+    printf("Em execucao: %d | Proximo: %d \n", gerenciador->estadoExec, index);
     if(index > -1) {
       trocaContexto(gerenciador);
-      //printf("Troca de contexto feita\n");
+      printf("Troca de contexto feita\n");
 
       gerenciador->tabelaProcessos.Item[gerenciador->estadoExec].estados = Pronto;
 
@@ -62,7 +63,7 @@ void controleEscalonamento(GerenciadorProcessos *gerenciador) {
 
       insereNaFila(x, &gerenciador->estadoPronto);
       //printf("Inseriu\n");
-      imprimeFila(gerenciador->estadoPronto);
+      //imprimeFila(gerenciador->estadoPronto);
 
       int removido = removeDaFila(&gerenciador->estadoPronto); //removendo index da fila, pois tem prioridade mais alta
 
@@ -105,7 +106,7 @@ void executaProximaInstrucaoProcessoSimulado(GerenciadorProcessos *gerenciador) 
   
   instrucaoAtual = gerenciador->cpu.processoAtual->processo.instrucoesPrograma[gerenciador->cpu.contadorPrograma];
 
-  printf("\nInstrucao atual: %c\n", instrucaoAtual.instrucao);
+  printf("\nInstrucao atual: %c   |   Contador: %d      | PID: %d\n", instrucaoAtual.instrucao, gerenciador->cpu.contadorPrograma, gerenciador->estadoExec);
   
   switch (instrucaoAtual.instrucao)
   {
@@ -185,7 +186,9 @@ void executaProximaInstrucaoProcessoSimulado(GerenciadorProcessos *gerenciador) 
     //retiraDaLista(gerenciador->estadoExec, &gerenciador->tabelaProcessos);
     trocaContexto(gerenciador);
     
-    free(gerenciador->cpu.vetorMemoria);
+    /* if (gerenciador->cpu.vetorMemoria != NULL){
+      free(gerenciador->cpu.vetorMemoria);
+    } */
 
     removidoPronto = removeDaFila(&gerenciador->estadoPronto);
 
@@ -199,11 +202,11 @@ void executaProximaInstrucaoProcessoSimulado(GerenciadorProcessos *gerenciador) 
     }
 
     gerenciador->tempoAtual++;
-    gerenciador->cpu.contadorPrograma++;
+    //gerenciador->cpu.contadorPrograma++;
     break;
   case 'F': 
     novoProcesso.processo.processoId = gerenciador->tabelaProcessos.Ultimo;
-    novoProcesso.processo.ContadorDePrograma = gerenciador->cpu.contadorPrograma;
+    novoProcesso.processo.ContadorDePrograma = gerenciador->cpu.contadorPrograma + 1;
 
     novoProcesso.processo.inteirosAlocados = (int *) malloc(sizeof(int) * gerenciador->cpu.quantidadeInteiros);
 
@@ -227,13 +230,13 @@ void executaProximaInstrucaoProcessoSimulado(GerenciadorProcessos *gerenciador) 
     gerenciador->cpu.contadorPrograma++; //proxima
     gerenciador->cpu.contadorPrograma += instrucaoAtual.index; //n instrucoes depois da proxima
     
-    novoProcesso.processo.ContadorDePrograma++;
+    //novoProcesso.processo.ContadorDePrograma++;
     novoProcesso.processoPaiId = gerenciador->cpu.processoAtual->processoId;
     novoProcesso.processoId = novoProcesso.processo.processoId;
     novoProcesso.tempoInicio = gerenciador->tempoAtual;
     novoProcesso.tempoCpu = 0;
     novoProcesso.estados = Pronto;
-    // novoProcesso.contadorPrograma = novoProcessoSimulado.ContadorDePrograma;
+    novoProcesso.contadorPrograma = novoProcesso.processo.ContadorDePrograma;
     novoProcesso.prioridade = gerenciador->cpu.processoAtual->prioridade;
 
     indexTabela = insereNaLista(novoProcesso, &gerenciador->tabelaProcessos);
@@ -255,9 +258,9 @@ void executaProximaInstrucaoProcessoSimulado(GerenciadorProcessos *gerenciador) 
     strcpy(strArquivo, "./Arquivos/");
     strcat(strArquivo, instrucaoAtual.nomeArquivo);
     
-    inicializaProcessoSimulado(strArquivo, &novoProcesso.processo);
-    imprimeProcessoSimulado(novoProcessoSimulado);
-    
+    novoProcesso.processo = inicializaProcessoSimulado(strArquivo);
+    imprimeProcessoSimulado(novoProcesso.processo);
+    printf("Free");
     gerenciador->quantidadeProcesos++;
     
     novoProcesso.processoId = gerenciador->cpu.processoAtual->processoId + 1;
@@ -273,19 +276,19 @@ void executaProximaInstrucaoProcessoSimulado(GerenciadorProcessos *gerenciador) 
     
     x.indeceTabelaProcessos = indexTabela;
     x.prioridade = &novoProcesso.prioridade;
-    
+    printf("Free");
     insereNaFila(x, &gerenciador->estadoPronto);
+    printf("Free");
         
     gerenciador->estadoExec = removeDaFila(&gerenciador->estadoPronto);  
 
-    iniciaCPU(&gerenciador, novoProcessoSimulado);      
+    iniciaCPU(&gerenciador, novoProcessoSimulado);
+    printf("Free");
     gerenciador->cpu.processoAtual = &gerenciador->tabelaProcessos.Item[gerenciador->estadoExec]; 
 
     gerenciador->cpu.processoAtual->estados = Execucao;
 
     gerenciador->cpu.contadorPrograma = 0;
-
-    free(gerenciador->cpu.vetorMemoria);
 
     gerenciador->tempoAtual++;
     break;

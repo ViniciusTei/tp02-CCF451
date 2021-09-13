@@ -1,17 +1,21 @@
 #include "headers/processoSimulados.h"
 
-void inicializaProcessoSimulado(char* nomeArquivo, ProcessoSimulado **processo) {
+ProcessoSimulado inicializaProcessoSimulado(char* nomeArquivo) {
     //inicializar o primeiro processo simulado
-    *processo = (ProcessoSimulado* ) malloc(sizeof(ProcessoSimulado));
+    ProcessoSimulado *processo;
+    processo = (ProcessoSimulado* ) malloc(sizeof(ProcessoSimulado));
 
     int inteiros = 0, qtdLinhas = 0;
-    qtdLinhas = inicializaInstrucoes(nomeArquivo, &(*processo)->instrucoesPrograma, &inteiros);
-    (*processo)->inteirosAlocados = NULL;
-    (*processo)->QtdInstrucoes = qtdLinhas;
-    (*processo)->QntdInteiros = inteiros;
-    (*processo)->ContadorDePrograma = 0;
+    qtdLinhas = inicializaInstrucoes(nomeArquivo, &processo->instrucoesPrograma, &inteiros);
+    //
+    processo->inteirosAlocados = NULL;
+    processo->QtdInstrucoes = qtdLinhas;
+    processo->QntdInteiros = inteiros;
+    processo->ContadorDePrograma = 0;
     // (*processo)->processoId = rand() % 10000;
-    (*processo)->prioridade = 0;
+    processo->prioridade = 0;
+
+    return *processo;
 }
 
 int inicializaInstrucoes(char* nomeArquivo, Instrucao** instrucoes, int *qtdInteiros){
@@ -23,7 +27,7 @@ int inicializaInstrucoes(char* nomeArquivo, Instrucao** instrucoes, int *qtdInte
   qtdLinhas = contadorInstrucoes(nomeArquivo);
   //printf("\nQtdLinhas: %d\n", qtdLinhas);
   //aloca o numero exato de instrucoes
-  *instrucoes = malloc(qtdLinhas * sizeof (Instrucao));
+  *instrucoes = (Instrucao *) malloc(qtdLinhas * sizeof (Instrucao));
   //Abre arquivo
   arq = fopen(nomeArquivo,"rt");
   //adicionar instrucoes no vetor;
@@ -82,7 +86,7 @@ int contadorInstrucoes(char* nomeArquivo){
 }
 
 void imprimeProcessoSimulado(ProcessoSimulado processo) {
-  printf("Processo simulado\n");
+  printf("Processo simulado: %d\n", processo.QtdInstrucoes );
 
   for(int i = 0; i < processo.QtdInstrucoes; i++) {
     printf("Instrucao: %c\n", processo.instrucoesPrograma[i].instrucao);

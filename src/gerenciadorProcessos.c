@@ -20,7 +20,9 @@ void iniciaGerenciadorProcessos(GerenciadorProcessos *gerenciador) {
 }
 
 void iniciaCPU(GerenciadorProcessos *gerenciador, ProcessoSimulado processo) {
-    free(gerenciador->cpu.vetorMemoria);
+   if (gerenciador->cpu.vetorMemoria != NULL){
+       //free(gerenciador->cpu.vetorMemoria);
+   }
 
     gerenciador->cpu.fatiaTempo = 10;
     gerenciador->cpu.contadorPrograma = processo.ContadorDePrograma;

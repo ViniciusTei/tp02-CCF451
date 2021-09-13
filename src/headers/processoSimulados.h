@@ -29,7 +29,7 @@ typedef struct ProcessoSimulado{
   Instrucao* instrucoesPrograma;
 } ProcessoSimulado;
 
-void inicializaProcessoSimulado(char* nomeArquivo, ProcessoSimulado **processo);
+ProcessoSimulado inicializaProcessoSimulado(char* nomeArquivo);
 int contadorInstrucoes(char* nomeArquivo);
 int inicializaInstrucoes(char* nomeArquivo, Instrucao** instrucoes, int *qtdInteiros);
 void imprimeProcessoSimulado(ProcessoSimulado processo);
